@@ -7,7 +7,6 @@ RUN a2enmod rewrite
 ENV MAGENTO_VERSION 2.1.7
 
 RUN rm -rf /var/www/html/*
-RUN cd /tmp && curl https://codeload.github.com/magento/magento2/tar.gz/$MAGENTO_VERSION -o $MAGENTO_VERSION.tar.gz && tar xvf $MAGENTO_VERSION.tar.gz && mv magento2-$MAGENTO_VERSION/* magento2-$MAGENTO_VERSION/.htaccess /var/www/html
 
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
@@ -45,11 +44,7 @@ RUN chmod +x /usr/local/bin/install-sampledata
 RUN echo "memory_limit=1024M" > /usr/local/etc/php/conf.d/memory-limit.ini
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-WORKDIR /var/www/html
-
-VOLUME /var/www/html/var
-VOLUME /var/www/html/pub
+COPY src/ /var/www/html
 
 # Add cron job
 ADD crontab /etc/cron.d/magento2-cron
