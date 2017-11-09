@@ -1,7 +1,7 @@
 version: '3.0'
 services:
   web:
-    image: ishtiaque/robishop
+    image: ishtiaque/robishop:1.2
     ports:
       - "80:80"
     links:
@@ -11,8 +11,6 @@ services:
   db:
     image: mysql:5.6.23
     volumes:
-      - db-data:/var/lib/mysql/data
+      - './data/var/lib/mysql:/var/lib/mysql:rw'
     env_file:
-      - env     
-volumes:
-  db-data: 
+      - env

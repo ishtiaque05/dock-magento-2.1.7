@@ -46,6 +46,8 @@ RUN echo "memory_limit=1024M" > /usr/local/etc/php/conf.d/memory-limit.ini
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+
 WORKDIR /var/www/html
 
 VOLUME /var/www/html/var
@@ -55,3 +57,4 @@ VOLUME /var/www/html/pub
 ADD crontab /etc/cron.d/magento2-cron
 RUN chmod 0644 /etc/cron.d/magento2-cron
 RUN crontab -u www-data /etc/cron.d/magento2-cron
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
